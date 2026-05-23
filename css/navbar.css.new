@@ -1,0 +1,643 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap');
+
+:root {
+	--nav-maroon: #800000;
+	--nav-gold: #f4a000;
+	--nav-white: #ffffff;
+	--nav-text: #1f2937;
+	--nav-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+	--top-bar-height: 48px;
+	--header-height: 96px;
+	--transition-fast: 0.25s ease;
+	--transition-normal: 0.35s ease;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+body.hidden-scrolling {
+	overflow: hidden;
+	touch-action: none;
+}
+
+.navs {
+	line-height: 1.5;
+	font-family: 'Kanit', sans-serif;
+}
+
+.navs ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.navs a {
+	text-decoration: none;
+}
+
+/* แถบด้านบนสำหรับข้อความวิ่งและไอคอนโซเชียล */
+.top-bar {
+	position: fixed;
+	inset: 0 0 auto 0;
+	z-index: 90;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	min-height: var(--top-bar-height);
+	padding: 8px clamp(12px, 2vw, 24px);
+	background-color: var(--nav-maroon);
+	color: var(--nav-white);
+	transition: transform var(--transition-normal);
+}
+
+.top-bar.topbar-scrolled {
+	transform: translateY(calc(-1 * var(--top-bar-height)));
+}
+
+.typing {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	min-width: 0;
+	flex: 1;
+}
+
+.typing img {
+	width: 38px;
+	height: 38px;
+	object-fit: contain;
+	flex-shrink: 0;
+}
+
+.typing-container {
+	min-width: 0;
+	font-size: clamp(0.9rem, 1.2vw, 1.35rem);
+	font-weight: 600;
+	color: var(--nav-white);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.icon-bar {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	flex-shrink: 0;
+}
+
+.icon-bar a {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.1);
+	transition: transform var(--transition-fast), background-color var(--transition-fast);
+}
+
+.icon-bar a:hover,
+.icon-bar a:focus-visible {
+	background: rgba(255, 255, 255, 0.2);
+	transform: translateY(-1px);
+}
+
+.icon-bar img {
+	width: 20px;
+	height: 20px;
+	object-fit: contain;
+}
+
+/* โครงสร้าง header หลัก */
+.header {
+	position: fixed;
+	inset: var(--top-bar-height) 0 auto 0;
+	z-index: 98;
+	background-color: var(--nav-white);
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+	transition: top var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.header.header-scrolled {
+	top: 0;
+}
+
+.container-nav {
+	width: min(1200px, calc(100% - 24px));
+	margin: 0 auto;
+}
+
+.header-main {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 20px;
+	min-height: var(--header-height);
+	padding: 12px 0;
+}
+
+.logo {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	min-width: 0;
+	flex: 1;
+}
+
+.logo img {
+	width: clamp(56px, 6vw, 84px);
+	height: auto;
+	object-fit: contain;
+	flex-shrink: 0;
+}
+
+.logo-text {
+	min-width: 0;
+}
+
+.logo h2 {
+	margin: 0;
+	font-size: clamp(1rem, 2vw, 1.6rem);
+	line-height: 1.2;
+	color: var(--nav-maroon);
+}
+
+.logo p {
+	margin: 4px 0 0;
+	font-size: clamp(0.82rem, 1.2vw, 1rem);
+	color: var(--nav-text);
+}
+
+/* ปุ่ม hamburger สำหรับมือถือและแท็บเล็ต */
+.header .open-nav-menu,
+.header .close-nav-menu {
+	display: none;
+	align-items: center;
+	justify-content: center;
+	border: 0;
+	cursor: pointer;
+}
+
+.header .open-nav-menu {
+	width: 46px;
+	height: 46px;
+	border-radius: 12px;
+	background: transparent;
+	flex-shrink: 0;
+}
+
+.header .open-nav-menu span,
+.header .open-nav-menu span::before,
+.header .open-nav-menu span::after {
+	display: block;
+	width: 24px;
+	height: 2px;
+	background-color: var(--nav-maroon);
+	border-radius: 99px;
+	transition: transform var(--transition-fast), opacity var(--transition-fast);
+}
+
+.header .open-nav-menu span {
+	position: relative;
+}
+
+.header .open-nav-menu span::before,
+.header .open-nav-menu span::after {
+	content: '';
+	position: absolute;
+	left: 0;
+}
+
+.header .open-nav-menu span::before {
+	top: -7px;
+}
+
+.header .open-nav-menu span::after {
+	top: 7px;
+}
+
+.header .menu-overlay {
+	position: fixed;
+	inset: 0;
+	z-index: 97;
+	background: rgba(0, 0, 0, 0.45);
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity var(--transition-normal), visibility var(--transition-normal);
+}
+
+.header .menu-overlay.active {
+	opacity: 1;
+	visibility: visible;
+}
+
+.header .nav-menu {
+	padding: 0;
+}
+
+.header .menu {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 6px 24px;
+}
+
+.header .menu > .menu-item {
+	position: relative;
+}
+
+.header .menu > .menu-item > a {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 12px 0;
+	font-size: 1rem;
+	font-weight: 600;
+	color: var(--nav-maroon);
+	transition: color var(--transition-fast);
+}
+
+.header .menu > .menu-item > a:hover,
+.header .menu > .menu-item > a:focus-visible {
+	color: var(--nav-gold);
+}
+
+/* เครื่องหมายบวก/ลบสำหรับเมนูที่มีเมนูย่อย */
+.header .menu-item-has-children > a .plus {
+	position: relative;
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	flex-shrink: 0;
+	pointer-events: none;
+}
+
+.header .menu-item-has-children > a .plus::before,
+.header .menu-item-has-children > a .plus::after {
+	content: '';
+	position: absolute;
+	inset: 50% auto auto 50%;
+	width: 100%;
+	height: 2px;
+	background-color: currentColor;
+	transform: translate(-50%, -50%);
+	transition: transform var(--transition-fast);
+}
+
+.header .menu-item-has-children > a .plus::after {
+	transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.header .menu-item-has-children.active > a .plus::after,
+.header .menu-item-has-children.is-open > a .plus::after {
+	transform: translate(-50%, -50%) rotate(0deg);
+}
+
+/* เมนูย่อยทุกระดับ */
+.header .sub-menu {
+	position: absolute;
+	left: 0;
+	top: calc(100% + 10px);
+	min-width: 240px;
+	padding: 10px 0;
+	background: var(--nav-white);
+	border-top: 3px solid var(--nav-gold);
+	border-radius: 0 0 14px 14px;
+	box-shadow: var(--nav-shadow);
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(8px);
+	transition: opacity var(--transition-fast), transform var(--transition-fast), visibility var(--transition-fast);
+	z-index: 20;
+}
+
+.header .sub-menu .menu-item {
+	position: relative;
+}
+
+.header .sub-menu .menu-item > a {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 10px 16px;
+	font-size: 0.95rem;
+	font-weight: 500;
+	color: var(--nav-maroon);
+	border-bottom: 1px solid rgba(128, 0, 0, 0.08);
+	white-space: nowrap;
+	transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.header .sub-menu .menu-item:last-child > a {
+	border-bottom: 0;
+}
+
+.header .sub-menu .menu-item > a:hover,
+.header .sub-menu .menu-item > a:focus-visible {
+	background: rgba(244, 160, 0, 0.08);
+	color: var(--nav-gold);
+}
+
+.header .sub-menu .menu-item-has-children > a::after {
+	content: '\203A';
+	font-size: 1.1rem;
+	font-weight: 700;
+}
+
+.header .sub-menu .sub-menu {
+	top: -3px;
+	left: calc(100% + 8px);
+}
+
+@media (min-width: 992px) {
+	.header .menu > .menu-item:hover > .sub-menu,
+	.header .menu > .menu-item:focus-within > .sub-menu,
+	.header .sub-menu .menu-item:hover > .sub-menu,
+	.header .sub-menu .menu-item:focus-within > .sub-menu,
+	.header .menu-item-has-children.is-open > .sub-menu {
+		opacity: 1;
+		visibility: visible;
+		transform: translateY(0);
+	}
+}
+
+/* ปรับการแสดงผลสำหรับแท็บเล็ตและมือถือ */
+@media (max-width: 991px) {
+	:root {
+		--top-bar-height: 56px;
+		--header-height: 80px;
+	}
+
+	.top-bar {
+		padding-inline: 12px;
+	}
+
+	.typing-container {
+		font-size: 0.95rem;
+	}
+
+	.header .open-nav-menu,
+	.header .close-nav-menu {
+		display: inline-flex;
+	}
+
+	.header .nav-menu {
+		position: fixed;
+		inset: 0 0 0 auto;
+		width: min(88vw, 360px);
+		height: 100dvh;
+		padding: 18px 0 28px;
+		background: var(--nav-maroon);
+		box-shadow: -12px 0 30px rgba(0, 0, 0, 0.18);
+		overflow-y: auto;
+		transform: translateX(100%);
+		visibility: hidden;
+		transition: transform var(--transition-normal), visibility var(--transition-normal);
+		z-index: 99;
+	}
+
+	.header .nav-menu.open {
+		transform: translateX(0);
+		visibility: visible;
+	}
+
+	.header .close-nav-menu {
+		width: 44px;
+		height: 44px;
+		margin: 0 0 12px 16px;
+		border-radius: 999px;
+		background: rgba(255, 255, 255, 0.12);
+	}
+
+	.header .close-nav-menu img {
+		width: 16px;
+		height: 16px;
+		object-fit: contain;
+	}
+
+	.header .menu {
+		display: block;
+	}
+
+	.header .menu > .menu-item {
+		margin: 0;
+	}
+
+	.header .menu > .menu-item > a,
+	.header .sub-menu .menu-item > a {
+		padding: 14px 18px;
+		color: var(--nav-white);
+		border-bottom: 1px solid rgba(244, 160, 0, 0.45);
+		white-space: normal;
+	}
+
+	.header .menu > .menu-item > a:hover,
+	.header .menu > .menu-item > a:focus-visible,
+	.header .sub-menu .menu-item > a:hover,
+	.header .sub-menu .menu-item > a:focus-visible {
+		background: rgba(255, 255, 255, 0.08);
+		color: var(--nav-white);
+	}
+
+	.header .menu-item-has-children > a {
+		justify-content: space-between;
+	}
+
+	.header .sub-menu,
+	.header .sub-menu .sub-menu {
+		position: static;
+		min-width: 100%;
+		padding: 0;
+		background: transparent;
+		border-top: 0;
+		border-radius: 0;
+		box-shadow: none;
+		opacity: 1;
+		visibility: visible;
+		transform: none;
+		max-height: 0;
+		overflow: hidden;
+		transition: max-height var(--transition-normal);
+	}
+
+	.header .menu-item-has-children.active > .sub-menu {
+		max-height: 2000px;
+	}
+
+	.header .sub-menu .menu-item > a {
+		padding-left: 34px;
+		font-size: 0.94rem;
+	}
+
+	.header .sub-menu .sub-menu .menu-item > a {
+		padding-left: 50px;
+		font-size: 0.9rem;
+	}
+
+	.header .sub-menu .menu-item-has-children > a::after {
+		content: '';
+	}
+}
+
+/* มือถือขนาดเล็ก */
+@media (max-width: 767px) {
+	.top-bar {
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 8px;
+		padding-block: 8px;
+	}
+
+	.typing {
+		width: 100%;
+		justify-content: center;
+	}
+
+	.typing-container {
+		text-align: center;
+		white-space: normal;
+	}
+
+	.icon-bar {
+		width: 100%;
+		justify-content: center;
+	}
+
+	.logo {
+		gap: 10px;
+	}
+
+	.logo h2 {
+		font-size: 1rem;
+	}
+
+	.logo p {
+		font-size: 0.78rem;
+	}
+
+	.container-nav {
+		width: min(100% - 16px, 1200px);
+	}
+}
+
+@media (max-width: 480px) {
+	:root {
+		--top-bar-height: 88px;
+		--header-height: 72px;
+	}
+
+	.top-bar {
+		padding-inline: 10px;
+	}
+
+	.typing img {
+		width: 32px;
+		height: 32px;
+	}
+
+	.icon-bar a {
+		width: 32px;
+		height: 32px;
+	}
+
+	.icon-bar img {
+		width: 18px;
+		height: 18px;
+	}
+
+	.logo img {
+		width: 48px;
+	}
+}
+
+/* ปุ่มลัดด้านล่างของหน้าจอ */
+#button-top,
+#messenger {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 44px;
+	height: 44px;
+	border-radius: 999px;
+	position: fixed;
+	bottom: 18px;
+	opacity: 0;
+	visibility: hidden;
+	z-index: 1000;
+	transition: background-color var(--transition-fast), opacity var(--transition-fast), visibility var(--transition-fast), transform var(--transition-fast);
+	animation: floating-bounce 1.5s ease-in-out infinite;
+}
+
+#button-top {
+	right: 12px;
+	background-color: #ff9800;
+}
+
+#messenger {
+	left: 12px;
+	background-color: var(--nav-gold);
+}
+
+#button-top::after {
+	content: '\f077';
+	font-family: FontAwesome;
+	font-size: 1.35rem;
+	color: var(--nav-white);
+}
+
+#messenger img {
+	width: 28px;
+	height: 28px;
+	object-fit: contain;
+}
+
+#button-top:hover,
+#messenger:hover {
+	background-color: var(--nav-maroon);
+	transform: translateY(-2px);
+}
+
+#button-top:active,
+#messenger:active {
+	background-color: #555555;
+}
+
+#button-top.show,
+#messenger.show {
+	opacity: 1;
+	visibility: visible;
+}
+
+@keyframes floating-bounce {
+	0% {
+		transform: translateY(0);
+	}
+
+	50% {
+		transform: translateY(-8px);
+	}
+
+	100% {
+		transform: translateY(0);
+	}
+}
+
+@media (min-width: 500px) {
+	#button-top {
+		right: 24px;
+	}
+
+	#messenger {
+		left: 24px;
+	}
+}

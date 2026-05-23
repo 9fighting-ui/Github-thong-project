@@ -1,0 +1,37 @@
+.containerdata-shcool {
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif;
+    max-width: 80%;
+    margin: auto;
+    margin-bottom: 50px;
+  }
+  
+  .containerdata-shcool img {
+    width: 50%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .containerdata-shcool h3 {
+    color: #800000; /* Red color for headings */
+    font-size: 1.5rem;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  
+  .containerdata-shcool p {
+    color: #333;
+    line-height: 1.6;
+    font-size: 1rem;
+    margin-bottom: 20px;
+  }
+  
+  .containerdata-shcool p:last-of-type {
+    margin-bottom: 0;
+  }
+  

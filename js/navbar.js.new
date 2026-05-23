@@ -1,0 +1,229 @@
+(() => {
+	const mobileBreakpoint = 991;
+	const body = document.body;
+	const openNavMenu = document.querySelector('.open-nav-menu');
+	const closeNavMenu = document.querySelector('.close-nav-menu');
+	const navMenu = document.querySelector('.nav-menu');
+	const menuOverlay = document.querySelector('.menu-overlay');
+	const topBar = document.querySelector('.top-bar');
+	const header = document.querySelector('.header');
+	const btnTop = document.getElementById('button-top');
+	const btnMsg = document.getElementById('messenger');
+
+	if (!openNavMenu || !navMenu || !menuOverlay) {
+		return;
+	}
+
+	const isMobileView = () => window.innerWidth <= mobileBreakpoint;
+
+	/* เปิดหรือปิดเมนูหลัก พร้อมอัปเดตสถานะสำหรับการเข้าถึง */
+	function setMenuOpen(isOpen) {
+		navMenu.classList.toggle('open', isOpen);
+		menuOverlay.classList.toggle('active', isOpen);
+		body.classList.toggle('hidden-scrolling', isOpen && isMobileView());
+		openNavMenu.setAttribute('aria-expanded', String(isOpen));
+	}
+
+	/* ปิดเมนูย่อยทั้งหมดที่เปิดอยู่ เพื่อกันเมนูซ้อนกันมากเกินไปบนมือถือ */
+	function closeAllSubMenus(scope = navMenu) {
+		scope.querySelectorAll('.menu-item-has-children.active').forEach((menuItem) => {
+			menuItem.classList.remove('active');
+
+			const trigger = menuItem.querySelector(':scope > a[data-toggle]');
+			const subMenu = menuItem.querySelector(':scope > .sub-menu');
+
+			if (trigger) {
+				trigger.setAttribute('aria-expanded', 'false');
+			}
+
+			if (subMenu) {
+				subMenu.style.maxHeight = '';
+			}
+		});
+	}
+
+	/* เปิดหรือปิดเมนูย่อยเฉพาะรายการที่ถูกแตะ */
+	function toggleSubMenu(menuItem) {
+		const trigger = menuItem.querySelector(':scope > a[data-toggle]');
+		const subMenu = menuItem.querySelector(':scope > .sub-menu');
+
+		if (!trigger || !subMenu) {
+			return;
+		}
+
+		const isActive = menuItem.classList.contains('active');
+
+		if (isActive) {
+			menuItem.classList.remove('active');
+			trigger.setAttribute('aria-expanded', 'false');
+			subMenu.style.maxHeight = '';
+			closeAllSubMenus(subMenu);
+			return;
+		}
+
+		const parentSubMenu = menuItem.parentElement.closest('.sub-menu');
+
+		Array.from(menuItem.parentElement.children).forEach((sibling) => {
+			if (!sibling.classList.contains('menu-item-has-children') || sibling === menuItem) {
+				return;
+			}
+
+			sibling.classList.remove('active');
+
+			const siblingTrigger = sibling.querySelector(':scope > a[data-toggle]');
+			const siblingSubMenu = sibling.querySelector(':scope > .sub-menu');
+
+			if (siblingTrigger) {
+				siblingTrigger.setAttribute('aria-expanded', 'false');
+			}
+
+			if (siblingSubMenu) {
+				siblingSubMenu.style.maxHeight = '';
+				closeAllSubMenus(siblingSubMenu);
+			}
+		});
+
+		menuItem.classList.add('active');
+		trigger.setAttribute('aria-expanded', 'true');
+		subMenu.style.maxHeight = `${subMenu.scrollHeight}px`;
+
+		if (parentSubMenu) {
+			parentSubMenu.style.maxHeight = `${parentSubMenu.scrollHeight}px`;
+		}
+	}
+
+	/* เตรียมค่า aria-expanded ให้กับเมนูที่มีรายการย่อย */
+	navMenu.querySelectorAll('.menu-item-has-children > a[data-toggle]').forEach((trigger) => {
+		trigger.setAttribute('aria-expanded', 'false');
+	});
+
+	openNavMenu.addEventListener('click', () => {
+		setMenuOpen(!navMenu.classList.contains('open'));
+	});
+
+	if (closeNavMenu) {
+		closeNavMenu.addEventListener('click', () => {
+			setMenuOpen(false);
+		});
+	}
+
+	menuOverlay.addEventListener('click', () => {
+		setMenuOpen(false);
+		closeAllSubMenus();
+	});
+
+	navMenu.addEventListener('click', (event) => {
+		const trigger = event.target.closest('[data-toggle="sub-menu"]');
+		const link = event.target.closest('a[href]');
+
+		if (trigger && isMobileView()) {
+			event.preventDefault();
+			toggleSubMenu(trigger.parentElement);
+			return;
+		}
+
+		if (!link || isMobileView() === false) {
+			return;
+		}
+
+		if (link.hasAttribute('data-toggle') || link.getAttribute('href') === '#') {
+			return;
+		}
+
+		setMenuOpen(false);
+		closeAllSubMenus();
+	});
+
+	/* รองรับคีย์บอร์ดบนเดสก์ท็อปเพื่อเปิดเมนูย่อยด้วย Enter หรือ Space */
+	navMenu.addEventListener('keydown', (event) => {
+		const trigger = event.target.closest('[data-toggle="sub-menu"]');
+
+		if (!trigger || isMobileView()) {
+			return;
+		}
+
+		if (event.key !== 'Enter' && event.key !== ' ') {
+			return;
+		}
+
+		event.preventDefault();
+		const menuItem = trigger.parentElement;
+		const willOpen = !menuItem.classList.contains('is-open');
+
+		navMenu.querySelectorAll('.menu-item-has-children.is-open').forEach((item) => {
+			if (item !== menuItem) {
+				item.classList.remove('is-open');
+			}
+		});
+
+		menuItem.classList.toggle('is-open', willOpen);
+		trigger.setAttribute('aria-expanded', String(willOpen));
+	});
+
+	document.addEventListener('click', (event) => {
+		if (isMobileView()) {
+			return;
+		}
+
+		if (!event.target.closest('.nav-menu')) {
+			navMenu.querySelectorAll('.menu-item-has-children.is-open').forEach((item) => {
+				item.classList.remove('is-open');
+				const trigger = item.querySelector(':scope > a[data-toggle]');
+				if (trigger) {
+					trigger.setAttribute('aria-expanded', 'false');
+				}
+			});
+		}
+	});
+
+	document.addEventListener('keydown', (event) => {
+		if (event.key !== 'Escape') {
+			return;
+		}
+
+		setMenuOpen(false);
+		closeAllSubMenus();
+		navMenu.querySelectorAll('.menu-item-has-children.is-open').forEach((item) => {
+			item.classList.remove('is-open');
+			const trigger = item.querySelector(':scope > a[data-toggle]');
+			if (trigger) {
+				trigger.setAttribute('aria-expanded', 'false');
+			}
+		});
+	});
+
+	window.addEventListener('resize', () => {
+		if (!isMobileView()) {
+			setMenuOpen(false);
+			body.classList.remove('hidden-scrolling');
+			closeAllSubMenus();
+		}
+	});
+
+	/* ควบคุมปุ่มลัดและตำแหน่ง header เมื่อลากหน้าจอ */
+	window.addEventListener('scroll', () => {
+		const scrollY = window.scrollY;
+
+		if (btnTop) {
+			btnTop.classList.toggle('show', scrollY > 100);
+		}
+
+		if (btnMsg) {
+			btnMsg.classList.toggle('show', scrollY > 200);
+		}
+
+		if (topBar) {
+			topBar.classList.toggle('topbar-scrolled', scrollY > 120);
+		}
+
+		if (header) {
+			header.classList.toggle('header-scrolled', scrollY > 120);
+		}
+	});
+
+	if (btnTop) {
+		btnTop.addEventListener('click', () => {
+			window.scrollTo({ top: 0, behavior: 'smooth' });
+		});
+	}
+})();

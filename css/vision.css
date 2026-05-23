@@ -1,0 +1,303 @@
+﻿:root {
+  --vision-primary: #7c2d12;
+  --vision-secondary: #f59e0b;
+  --vision-ink: #1f2937;
+  --vision-muted: #6b7280;
+  --vision-surface: rgba(255, 255, 255, 0.94);
+  --vision-border: rgba(124, 45, 18, 0.12);
+  --vision-shadow: 0 20px 48px rgba(15, 23, 42, 0.12);
+}
+
+body {
+  font-family: 'Prompt', sans-serif;
+  color: var(--vision-ink);
+  background: linear-gradient(180deg, #fff7ed 0%, #fffdf8 42%, #fffaf2 100%);
+}
+
+/* พื้นที่หลักของหน้า เว้นด้านบนไว้สำหรับ header แบบ fixed */
+.vision-page {
+  padding-top: 150px;
+}
+
+/* ส่วน hero ใช้สร้างภาพจำและเน้นหัวข้อของหน้า */
+.vision-hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 430px;
+  display: flex;
+  align-items: flex-end;
+  background:
+    linear-gradient(135deg, rgba(68, 24, 10, 0.82), rgba(124, 45, 18, 0.52)),
+    radial-gradient(circle at top right, rgba(245, 158, 11, 0.26), transparent 28%),
+    url('../img/ตึก.jpg') center/cover no-repeat;
+}
+
+.vision-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 247, 237, 0.14)),
+    radial-gradient(circle at bottom left, rgba(251, 191, 36, 0.2), transparent 34%);
+}
+
+.vision-shell {
+  width: min(1160px, calc(100% - 28px));
+  margin: 0 auto;
+}
+
+.vision-hero__inner {
+  position: relative;
+  z-index: 1;
+  padding: 84px 0 60px;
+}
+
+.vision-badge,
+.section-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.vision-badge {
+  color: #fff8ef;
+  background: rgba(255, 244, 230, 0.14);
+  border: 1px solid rgba(255, 240, 215, 0.24);
+  backdrop-filter: blur(10px);
+}
+
+.vision-hero h1 {
+  max-width: 100%;
+  margin: 18px 0 16px;
+  color: #fffaf5;
+  /*font-size: clamp(2.1rem, 4.2vw, 4rem);*/
+  font-size: clamp(2rem, 3vw, 3.125rem);
+  line-height: 1.1;
+}
+
+.vision-hero p {
+  max-width: 760px;
+  margin: 0;
+  color: rgba(255, 249, 242, 0.94);
+  font-size: clamp(1rem, 1.6vw, 1.18rem);
+  line-height: 1.9;
+}
+
+/* เนื้อหาหลักของหน้า */
+.vision-content {
+  position: relative;
+  margin-top: -42px;
+  padding: 0 0 80px;
+}
+
+.vision-highlight-card,
+.vision-card,
+.vision-panel {
+  background: var(--vision-surface);
+  border: 1px solid var(--vision-border);
+  box-shadow: var(--vision-shadow);
+}
+
+.vision-highlight-card {
+  padding: 32px;
+  border-radius: 32px;
+  margin-bottom: 28px;
+}
+
+.section-eyebrow {
+  color: var(--vision-primary);
+  background: rgba(245, 158, 11, 0.12);
+}
+
+.vision-highlight-card h2 {
+  margin: 16px 0 16px;
+  color: var(--vision-primary);
+  font-size: clamp(1.8rem, 3.2vw, 2.9rem);
+  line-height: 1.2;
+}
+
+.vision-highlight-card blockquote {
+  margin: 0;
+  padding: 22px 24px;
+  border-left: 5px solid var(--vision-secondary);
+  border-radius: 0 24px 24px 0;
+  background: linear-gradient(90deg, rgba(245, 158, 11, 0.12), rgba(255, 247, 237, 0.9));
+  color: #4b2e12;
+  font-size: clamp(1.05rem, 1.8vw, 1.3rem);
+  line-height: 1.9;
+  font-weight: 500;
+}
+
+.vision-support-text {
+  margin: 18px 0 0;
+  color: var(--vision-muted);
+  line-height: 1.9;
+}
+
+/* กลุ่มการ์ดข้อมูลสรุป */
+.vision-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+  margin-bottom: 28px;
+}
+
+.vision-card {
+  height: 100%;
+  padding: 26px 24px;
+  border-radius: 28px;
+}
+
+.vision-card__icon {
+  width: 58px;
+  height: 58px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+  margin-bottom: 18px;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.18), rgba(124, 45, 18, 0.12));
+  color: var(--vision-primary);
+  font-size: 1.4rem;
+}
+
+.vision-card h3,
+.vision-panel h3 {
+  margin: 14px 0 12px;
+  color: var(--vision-primary);
+  font-size: 1.4rem;
+  line-height: 1.35;
+}
+
+.vision-card p,
+.vision-panel p,
+.vision-list li,
+.vision-stat-item__label,
+.vision-stat-item strong {
+  line-height: 1.85;
+}
+
+.vision-card p,
+.vision-panel p,
+.vision-list li {
+  margin: 0;
+  color: var(--vision-ink);
+}
+
+/* ส่วนรายละเอียดเพิ่มเติมสองฝั่ง */
+.vision-detail-layout {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 22px;
+}
+
+.vision-panel {
+  padding: 28px;
+  border-radius: 28px;
+}
+
+.vision-panel--warm {
+  background: linear-gradient(180deg, rgba(255, 248, 239, 0.96), rgba(255, 252, 246, 0.98));
+}
+
+.vision-panel--light {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 250, 244, 0.96));
+}
+
+.vision-list {
+  margin: 16px 0 0;
+  padding-left: 20px;
+}
+
+.vision-list li + li {
+  margin-top: 10px;
+}
+
+.vision-stat-list {
+  display: grid;
+  gap: 16px;
+  margin-top: 14px;
+}
+
+.vision-stat-item {
+  padding: 16px 18px;
+  border-radius: 20px;
+  background: rgba(124, 45, 18, 0.04);
+  border: 1px solid rgba(124, 45, 18, 0.08);
+}
+
+.vision-stat-item__label {
+  display: block;
+  color: var(--vision-muted);
+  font-size: 0.92rem;
+}
+
+.vision-stat-item strong {
+  display: block;
+  margin-top: 4px;
+  color: var(--vision-primary);
+  font-size: 1rem;
+}
+
+/* แท็บเล็ต */
+@media (max-width: 991px) {
+  .vision-page {
+    padding-top: 148px;
+  }
+
+  .vision-hero {
+    min-height: 390px;
+  }
+
+  .vision-hero__inner {
+    padding: 76px 0 52px;
+  }
+
+  .vision-grid,
+  .vision-detail-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* มือถือ */
+@media (max-width: 640px) {
+  .vision-page {
+    padding-top: 184px;
+  }
+
+  .vision-shell {
+    width: min(100% - 18px, 1160px);
+  }
+
+  .vision-hero {
+    min-height: 360px;
+    background-position: center;
+  }
+
+  .vision-hero__inner {
+    padding: 68px 0 46px;
+  }
+
+  .vision-highlight-card,
+  .vision-card,
+  .vision-panel {
+    padding: 22px 16px;
+    border-radius: 22px;
+  }
+
+  .vision-highlight-card blockquote {
+    padding: 18px 16px;
+    border-radius: 0 18px 18px 0;
+  }
+
+  .vision-card__icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+  }
+}

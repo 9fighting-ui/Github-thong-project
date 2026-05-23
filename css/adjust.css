@@ -1,0 +1,54 @@
+.maintenance {
+  margin-top: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+  background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+  text-align: center;
+}
+
+.maintenance .box {
+  margin-top: 0px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  max-width: 500px;
+}
+
+.maintenance img {
+  width: 250px;
+  margin-bottom: 20px;
+}
+
+.maintenance h1 {
+  color: #ff6600;
+  margin-bottom: 15px;
+}
+
+.maintenance p {
+  color: #555;
+  line-height: 1.6;
+}
+
+.maintenance .contact {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #888;
+}
+
+.btn-home {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 25px;
+  background: #ff6600;
+  color: #fff;
+  border-radius: 30px;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.btn-home:hover {
+  background: #e65c00;
+}
